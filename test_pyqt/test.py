@@ -8,6 +8,8 @@ def window():
     win = QMainWindow()
     win.setGeometry(400, 400, 300, 300)
     win.setWindowTitle("PyQt5 Test")
+    lbl = QtWidgets.QLabel(win)
+    lbl.setText("Hello World")
 
     win.show()
     sys.exit(app.exec_())
