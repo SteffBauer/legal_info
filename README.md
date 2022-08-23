@@ -24,4 +24,5 @@ Flutter
 
 * Android & iOS
 * Web/Desktop möglich
+* Ansprechenderes Design möglich
 
