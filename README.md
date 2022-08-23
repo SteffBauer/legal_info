@@ -10,19 +10,22 @@ Tools für Richter & Anwälte
 ## Techstack
 
 ### Wunsch
+
 * Python
 * pyQt5
 
-Nachteile
-* läuft nicht nativ (Java virtual machine wird benötigt)
-* Tests umständlich
-* Wenig Erfahrung mit pyQt5
+Nachteile:
+
+* läuft nicht nativ &rarr; Java virtual machine wird benötigt
+* Python Interpreter in App notwendig &rarr; App unnötig groß
+* Keine nativen UI Elemente
+
 
 ### Vorschlag
 
-Flutter
+Flutter:
 
 * Android & iOS
 * Web/Desktop möglich
-* Ansprechenderes Design möglich
+* Ansprechenderes Design möglich, da native UI Elemente
 
