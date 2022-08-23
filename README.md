@@ -3,7 +3,9 @@
 Tools für Richter & Anwälte
 * Berechnung von Fristen
 * Ermitteln des Restalkoholwerts im Blut
+* Geburtstagsrechner
 * ...
+
 
 ## Techstack
 
@@ -12,11 +14,14 @@ Tools für Richter & Anwälte
 * pyQt5
 
 Nachteile
-* läuft nicht nativ (Java virtual machine)
+* läuft nicht nativ (Java virtual machine wird benötigt)
+* Tests umständlich
+* Wenig Erfahrung mit pyQt5
 
 ### Vorschlag
 
-* Flutter
-    * Android & iOS
-    * Web/Desktop möglich
+Flutter
+
+* Android & iOS
+* Web/Desktop möglich
 
