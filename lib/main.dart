@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legal_info/tools/modules/calcAge.dart';
 
 void main() {
   runApp(const MyApp());
@@ -129,27 +130,36 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _getColumn(context, Text text, Icon icon) {
-    return Container(
-      margin: const EdgeInsets.all(5.0),
-      padding: const EdgeInsets.all(20.0),
-      width: 150,
-      height: 150,
-      decoration: BoxDecoration(
-        //color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 2,
+    return InkWell(
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(20.0),
+        width: 150,
+        height: 150,
+        decoration: BoxDecoration(
+          //color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            icon,
+            text,
+          ],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          icon,
-          text,
-        ],
-      ),
+      onTap: () {
+        // todo open page with different tools
+        // todo base class for views & tools
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return CalculateAgePage();
+        }));
+      },
     );
   }
 }
