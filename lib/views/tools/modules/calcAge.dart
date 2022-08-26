@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:legal_info/models/view_detail_model.dart';
 
-class CalculateAgePage extends StatefulWidget {
+class CalculateAgePage extends StatefulWidget implements IViewDetailModel {
+  @override
+  final String title = "Alter berechnen";
+
   const CalculateAgePage({Key? key}) : super(key: key);
 
   @override

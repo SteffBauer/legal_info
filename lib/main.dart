@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:legal_info/tools/modules/calcAge.dart';
+import 'package:legal_info/mappings/view_module_mapping.dart';
+import 'package:legal_info/mappings/view_text_mapping.dart';
+import 'package:legal_info/models/enum_view_list.dart';
+import 'package:legal_info/models/view_detail_model.dart';
+import 'package:legal_info/views/overview_area.dart';
+import 'models/view_list_model.dart';
+import 'views/tools/modules/calcAge.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,6 +13,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static const String notFound = 'Not found';
 
   // This widget is the root of your application.
   @override
@@ -41,7 +48,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.titleLarge;
+    final textStyle = Theme.of(context)
+        .textTheme
+        .titleLarge
+        ?.merge(const TextStyle(overflow: TextOverflow.ellipsis));
     const iconSize = 40.0;
 
     return Scaffold(
@@ -59,31 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    _getColumn(
-                        context,
-                        Text(
-                          "Privatrecht",
-                          style: textStyle,
-                        ),
-                        const Icon(
-                          Icons.gavel,
-                          size: iconSize,
-                        ))
+                    _getColumn(context, ViewListType.PrivateLaw),
                   ],
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      _getColumn(
-                          context,
-                          Text(
-                            "Text",
-                            style: textStyle,
-                          ),
-                          const Icon(
-                            Icons.gavel,
-                            size: iconSize,
-                          ))
+                      _getColumn(context, ViewListType.PublicLaw)
                     ]),
               ],
             ),
@@ -94,32 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    _getColumn(
-                        context,
-                        Text(
-                          "Text",
-                          style: textStyle,
-                        ),
-                        const Icon(
-                          Icons.gavel,
-                          size: iconSize,
-                        ))
+                    _getColumn(context, ViewListType.CriminalLaw)
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    _getColumn(
-                        context,
-                        Text(
-                          "Tools",
-                          style: textStyle,
-                        ),
-                        const Icon(
-                          Icons.gavel,
-                          size: iconSize,
-                        ))
-                  ],
+                  children: <Widget>[_getColumn(context, ViewListType.Tools)],
                 ),
               ],
             ),
@@ -129,7 +101,36 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _getColumn(context, Text text, Icon icon) {
+  Widget _getColumn(context, ViewListType viewListType) {
+    var textStyle = Theme.of(context)
+        .textTheme
+        .titleLarge
+        ?.merge(const TextStyle(overflow: TextOverflow.ellipsis));
+
+    IconData iconData = Icons.warning;
+    IViewListModel viewListModel;
+
+    switch (viewListType) {
+      case ViewListType.PrivateLaw:
+        iconData = Icons.security;
+        viewListModel = ViewModuleMapping.viewsPrivateLaw;
+        break;
+      case ViewListType.PublicLaw:
+        iconData = Icons.groups;
+        viewListModel = ViewModuleMapping.viewsPublicLaw;
+        break;
+      case ViewListType.CriminalLaw:
+        iconData = Icons.gavel;
+        viewListModel = ViewModuleMapping.viewsCriminalLaw;
+        break;
+      case ViewListType.Tools:
+        iconData = Icons.handyman;
+        viewListModel = ViewModuleMapping.viewsTools;
+        break;
+    }
+
+    Icon icon = Icon(iconData, size: 40);
+
     return InkWell(
       child: Container(
         margin: const EdgeInsets.all(5.0),
@@ -149,7 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             icon,
-            text,
+            Text(
+              viewListModel.title,
+              style: textStyle,
+            ),
           ],
         ),
       ),
@@ -157,7 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // todo open page with different tools
         // todo base class for views & tools
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CalculateAgePage();
+          return OverViewArea(
+              title: viewListModel.title, childViews: viewListModel.childViews);
         }));
       },
     );
