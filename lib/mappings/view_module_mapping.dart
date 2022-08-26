@@ -7,13 +7,12 @@ import '../views/tools/modules/calcAge.dart';
 class ViewModuleMapping {
   ViewModuleMapping();
 
-  static final IViewListModel viewsPrivateLaw = OverViewArea(
-      title: ViewTextMapping.privateLaw,
-      childViews: const [CalculateAgePage()]);
+  static final IViewListModel viewsPrivateLaw =
+      OverViewArea(title: ViewTextMapping.privateLaw, childViews: const []);
   static final IViewListModel viewsPublicLaw =
       OverViewArea(title: ViewTextMapping.publicLaw, childViews: const []);
-  static final IViewListModel viewsTools =
-      OverViewArea(title: ViewTextMapping.tools, childViews: const []);
+  static final IViewListModel viewsTools = OverViewArea(
+      title: ViewTextMapping.tools, childViews: const [CalculateAgePage()]);
   static final IViewListModel viewsCriminalLaw =
       OverViewArea(title: ViewTextMapping.criminalLaw, childViews: const []);
 }

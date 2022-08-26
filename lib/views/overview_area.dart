@@ -18,27 +18,27 @@ class OverViewArea extends StatelessWidget implements IViewListModel {
   }
 
   _getBody(BuildContext context) {
-    var headline = Theme.of(context).textTheme.headline1;
+    var headline = Theme.of(context).textTheme.titleLarge;
 
     return childViews.isEmpty
         ? Center(
             child: Text(
-              'Empty',
+              'Im Aufbau',
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
                   .merge(TextStyle(color: Colors.red)),
             ),
           )
-        : ListView.builder(
+        : ListView.separated(
+            itemCount: childViews.length,
             padding: const EdgeInsets.all(16.0),
-            itemBuilder: (context, i) {
-              if (i >= childViews.length) return const Text('Not found');
-
-              if (i.isOdd) return const Divider();
-
-              final index = i ~/ 2;
+            itemBuilder: (context, index) {
               return ListTile(
+                  leading: Icon(
+                    childViews[index].icon,
+                    size: 40,
+                  ),
                   title: Text(
                     childViews[index].title,
                     style: headline,
@@ -57,6 +57,9 @@ class OverViewArea extends StatelessWidget implements IViewListModel {
                             builder: (context) => childViews[index]));
                   });
             },
+            separatorBuilder: (context, i) => const Divider(
+              color: Colors.grey,
+            ),
           );
   }
 }

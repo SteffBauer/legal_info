@@ -4,6 +4,8 @@ import 'package:legal_info/models/view_detail_model.dart';
 class CalculateAgePage extends StatefulWidget implements IViewDetailModel {
   @override
   final String title = "Alter berechnen";
+  @override
+  final IconData icon = Icons.calculate;
 
   const CalculateAgePage({Key? key}) : super(key: key);
 
