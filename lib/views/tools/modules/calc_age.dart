@@ -51,7 +51,7 @@ class _CalculateAgePageState extends State<CalculateAgePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calculate Age'),
+        title: Text(widget.title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

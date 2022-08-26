@@ -1,11 +1,10 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:legal_info/mappings/view_module_mapping.dart';
-import 'package:legal_info/mappings/view_text_mapping.dart';
 import 'package:legal_info/models/enum_view_list.dart';
-import 'package:legal_info/models/view_detail_model.dart';
 import 'package:legal_info/views/overview_area.dart';
 import 'models/view_list_model.dart';
-import 'views/tools/modules/calcAge.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,21 +17,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = kDebugMode ? ThemeMode.light : ThemeMode.system;
+
     return MaterialApp(
       title: 'Legal Info',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+      theme: FlexThemeData.light(scheme: FlexScheme.ebonyClay),
+      darkTheme: FlexThemeData.dark(scheme: FlexScheme.ebonyClay),
+      themeMode: themeMode,
       home: const MyHomePage(title: 'Legal Info'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -48,51 +41,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context)
-        .textTheme
-        .titleLarge
-        ?.merge(const TextStyle(overflow: TextOverflow.ellipsis));
-    const iconSize = 40.0;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    _getColumn(context, ViewListType.PrivateLaw),
-                  ],
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      _getColumn(context, ViewListType.PublicLaw)
-                    ]),
+                _getCategorie(context, ViewListType.privateLaw),
+                _getCategorie(context, ViewListType.criminalLaw),
               ],
             ),
-            Column(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    _getColumn(context, ViewListType.CriminalLaw)
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[_getColumn(context, ViewListType.Tools)],
-                ),
+                _getCategorie(context, ViewListType.publicLaw),
+                _getCategorie(context, ViewListType.tools)
               ],
             ),
           ],
@@ -101,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _getColumn(context, ViewListType viewListType) {
+  Widget _getCategorie(context, ViewListType viewListType) {
     var textStyle = Theme.of(context)
         .textTheme
         .titleLarge
@@ -111,19 +79,19 @@ class _MyHomePageState extends State<MyHomePage> {
     IViewListModel viewListModel;
 
     switch (viewListType) {
-      case ViewListType.PrivateLaw:
+      case ViewListType.privateLaw:
         iconData = Icons.security;
         viewListModel = ViewModuleMapping.viewsPrivateLaw;
         break;
-      case ViewListType.PublicLaw:
+      case ViewListType.publicLaw:
         iconData = Icons.groups;
         viewListModel = ViewModuleMapping.viewsPublicLaw;
         break;
-      case ViewListType.CriminalLaw:
+      case ViewListType.criminalLaw:
         iconData = Icons.gavel;
         viewListModel = ViewModuleMapping.viewsCriminalLaw;
         break;
-      case ViewListType.Tools:
+      case ViewListType.tools:
         iconData = Icons.handyman;
         viewListModel = ViewModuleMapping.viewsTools;
         break;
@@ -132,29 +100,33 @@ class _MyHomePageState extends State<MyHomePage> {
     Icon icon = Icon(iconData, size: 40);
 
     return InkWell(
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        padding: const EdgeInsets.all(20.0),
-        width: 150,
-        height: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            icon,
-            Text(
-              viewListModel.title,
-              style: textStyle,
+      child: Row(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(20.0),
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
             ),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                icon,
+                Text(
+                  viewListModel.title,
+                  style: textStyle,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {

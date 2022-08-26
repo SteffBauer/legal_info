@@ -27,7 +27,7 @@ class OverViewArea extends StatelessWidget implements IViewListModel {
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
-                  .merge(TextStyle(color: Colors.red)),
+                  .merge(const TextStyle(color: Colors.red)),
             ),
           )
         : ListView.separated(

@@ -1,6 +1,6 @@
 enum ViewListType {
-  PrivateLaw,
-  PublicLaw,
-  CriminalLaw,
-  Tools,
+  privateLaw,
+  publicLaw,
+  criminalLaw,
+  tools,
 }
