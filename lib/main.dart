@@ -138,7 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 150,
         height: 150,
         decoration: BoxDecoration(
-          //color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: Theme.of(context).colorScheme.primary,
@@ -158,8 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       onTap: () {
-        // todo open page with different tools
-        // todo base class for views & tools
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return OverViewArea(
               title: viewListModel.title, childViews: viewListModel.childViews);
