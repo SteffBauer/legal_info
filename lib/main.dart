@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:legal_info/mappings/view_module_mapping.dart';
 import 'package:legal_info/models/enum_view_list.dart';
 import 'package:legal_info/views/overview_area.dart';
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeMode themeMode = kDebugMode ? ThemeMode.dark : ThemeMode.system;
+    initializeDateFormatting(Platform.localeName, null);
 
     return MaterialApp(
       title: 'Legal Info',

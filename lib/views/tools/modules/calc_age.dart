@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:legal_info/models/view_detail_model.dart';
 
 class CalculateAgePage extends StatefulWidget implements IViewDetailModel {
@@ -21,6 +24,12 @@ enum DateType {
 class _CalculateAgePageState extends State<CalculateAgePage> {
   var birthday = DateTime(DateTime.now().year - 20, 1, 1);
   var current = DateTime.now();
+  DateFormat dateFormat = DateFormat.yMd(Platform.localeName);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _selectDate(BuildContext context, DateType dateType) async {
     DateTime dateTime;
@@ -70,7 +79,7 @@ class _CalculateAgePageState extends State<CalculateAgePage> {
                 ),
                 ElevatedButton(
                   onPressed: () => _selectDate(context, DateType.birthday),
-                  child: Text("${birthday.toLocal()}".split(' ')[0]),
+                  child: Text(dateFormat.format(birthday.toLocal())),
                 ),
               ],
             ),
@@ -85,7 +94,7 @@ class _CalculateAgePageState extends State<CalculateAgePage> {
                 ),
                 ElevatedButton(
                   onPressed: () => _selectDate(context, DateType.current),
-                  child: Text("${current.toLocal()}".split(' ')[0]),
+                  child: Text(dateFormat.format(current.toLocal())),
                 ),
               ],
             ),
