@@ -29,6 +29,7 @@ class _CalculateDeadlinePageState extends State<CalculateDeadlinePage> {
   DateFormat dateFormat = DateFormat.yMd(Platform.localeName);
   final List<bool> _selectedDeadline = <bool>[true, false, false, false];
   var current = DateTime.now();
+  var deadline = DateTime.now().add(const Duration(days: 7));
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +71,24 @@ class _CalculateDeadlinePageState extends State<CalculateDeadlinePage> {
                             for (int i = 0; i < _selectedDeadline.length; i++) {
                               _selectedDeadline[i] = i == index;
                             }
+                            switch (index) {
+                              case 0:
+                                deadline = current.add(const Duration(days: 7));
+                                break;
+                              case 1:
+                                deadline =
+                                    current.add(const Duration(days: 7 * 4));
+                                break;
+                              case 2:
+                                deadline = current
+                                    .add(const Duration(days: 7 * 4 * 3));
+                                break;
+                              case 3:
+                                deadline = current
+                                    .add(const Duration(days: 7 * 4 * 6));
+                                break;
+                              default:
+                            }
                           });
                         },
                         borderRadius:
@@ -89,7 +108,8 @@ class _CalculateDeadlinePageState extends State<CalculateDeadlinePage> {
                     ],
                   ),
                 ]),
-            Text("Hello World"),
+            Text("Frist: " + dateFormat.format(deadline.toLocal()),
+                style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       ),
