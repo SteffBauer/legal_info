@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:legal_info/models/alc_drink_model.dart';
 import 'package:legal_info/models/enum_gender.dart';
 import 'package:legal_info/models/view_detail_model.dart';
-import 'package:uuid/uuid.dart';
-
-var uuid = const Uuid();
 
 class CalculateAlcPage extends StatefulWidget implements IViewDetailModel {
   @override
@@ -27,19 +24,17 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
     GenderType.male: 0.68,
     GenderType.female: 0.55
   };
-  final defaultAlcoholicDrink = AlcoholicDrink(
-      id: uuid.v1(), percentage: 5.0, volume: 500.0, drinkType: DrinkType.Bier);
-
   GenderType? _gender = GenderType.male;
   var _weight = 80.0;
   var _height = 180;
-  var _drinks = List.empty(growable: true);
+  final _drinks = List.empty(growable: true);
 
   @override
   void initState() {
     super.initState();
 
-    _drinks.add(AlcoholicDrink.clone(defaultAlcoholicDrink));
+    _drinks.add(
+        AlcoholicDrink(percentage: 5, volume: 500, drinkType: DrinkType.Bier));
 
     _controllerHeight.text = _height.toString();
     _controllerHeight.selection =
@@ -90,7 +85,7 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
       ),
       body: Container(
         margin: const EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             const SizedBox(height: 24),
             Row(children: [
@@ -149,7 +144,7 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
                 itemCount: _drinks.length + 1,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext content, int index) {
-// Return last item as Add button
+                  // Return last item as Add button
                   if (index == _drinks.length) {
                     return Align(
                       alignment: Alignment.centerRight,
@@ -266,7 +261,8 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
               onPressed: (() {
                 setState(() {
                   _drinks.clear();
-                  _drinks.add(AlcoholicDrink.clone(defaultAlcoholicDrink));
+                  _drinks.add(AlcoholicDrink(
+                      percentage: 5, volume: 500, drinkType: DrinkType.Bier));
                 });
               }),
               child: Text("Getränke löschen")),
