@@ -1,4 +1,5 @@
 class AlcoholicDrink {
+  String id;
   double percentage;
   double volume;
   int volumeFactor = 1;
@@ -9,12 +10,14 @@ class AlcoholicDrink {
   }
 
   AlcoholicDrink(
-      {required this.percentage,
+      {required this.id,
+      required this.percentage,
       required this.volume,
       required this.drinkType});
 
   AlcoholicDrink.clone(AlcoholicDrink alcoholicDrink)
       : this(
+          id: alcoholicDrink.id,
           percentage: alcoholicDrink.percentage,
           volume: alcoholicDrink.volume,
           drinkType: alcoholicDrink.drinkType,
