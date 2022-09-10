@@ -89,6 +89,7 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
         margin: const EdgeInsets.all(10),
         child: Column(
           children: [
+            const SizedBox(height: 24),
             Row(children: [
               Column(
                 children: [
