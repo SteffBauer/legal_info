@@ -33,8 +33,8 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
   void initState() {
     super.initState();
 
-    _drinks.add(
-        AlcoholicDrink(percentage: 5, volume: 500, drinkType: DrinkType.Bier));
+    _drinks.add(AlcoholicDrink(
+        percentage: 3.5, volume: 500, drinkType: DrinkType.Bier));
 
     _controllerHeight.text = _height.toString();
     _controllerHeight.selection =
@@ -104,43 +104,52 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
               )
             ]),
             SizedBox(height: spaceBetweenFields),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Gewicht in kg",
-              ),
-              keyboardType: TextInputType.number,
-              controller: _controllerWheight,
-              onTap: () {
-                _controllerWheight.selection = TextSelection(
-                    baseOffset: 0,
-                    extentOffset: _controllerWheight.text.length);
-              },
-              onChanged: (String value) {
-                setState(() {
-                  _weight = double.tryParse(value) ?? 0.0;
-                });
-              },
-            ),
-            SizedBox(height: spaceBetweenFields),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Körpergröße in cm",
-              ),
-              keyboardType: TextInputType.number,
-              controller: _controllerHeight,
-              onTap: () {
-                _controllerHeight.selection = TextSelection(
-                    baseOffset: 0, extentOffset: _controllerHeight.text.length);
-              },
-              onChanged: (String value) {
-                setState(() {
-                  _height = int.tryParse(value) ?? 0;
-                });
-              },
+            Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: "Gewicht in kg",
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: _controllerWheight,
+                    onTap: () {
+                      _controllerWheight.selection = TextSelection(
+                          baseOffset: 0,
+                          extentOffset: _controllerWheight.text.length);
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        _weight = double.tryParse(value) ?? 0.0;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: spaceBetweenFields),
+                Flexible(
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: "Körpergröße in cm",
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: _controllerHeight,
+                    onTap: () {
+                      _controllerHeight.selection = TextSelection(
+                          baseOffset: 0,
+                          extentOffset: _controllerHeight.text.length);
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        _height = int.tryParse(value) ?? 0;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: spaceBetweenFields * 2),
             Expanded(
-              child: ListView.separated(
+              child: ListView.builder(
                 itemCount: _drinks.length + 1,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext content, int index) {
@@ -168,86 +177,109 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
                       });
                     },
                     background: Container(color: Colors.red),
-                    child: ListTile(
-                      title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 120,
-                            child: DropdownButtonFormField<DrinkType>(
-                              decoration: const InputDecoration(
-                                labelText: "Getränk",
+                    child: Card(
+                      child: ListTile(
+                        title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              child: DropdownButtonFormField<DrinkType>(
+                                decoration: const InputDecoration(
+                                    labelText: "Getränk", isDense: true),
+                                value: DrinkType.Bier,
+                                items:
+                                    DrinkType.values.map((DrinkType classType) {
+                                  return DropdownMenuItem<DrinkType>(
+                                      value: classType,
+                                      child: Text(
+                                        classType.name.toString(),
+                                      ));
+                                }).toList(),
+                                onChanged: (DrinkType? newValue) {
+                                  setState(() {
+                                    _drinks[index].drinkType =
+                                        newValue ?? DrinkType.Bier;
+                                  });
+                                },
                               ),
-                              value: DrinkType.Bier,
-                              items:
-                                  DrinkType.values.map((DrinkType classType) {
-                                return DropdownMenuItem<DrinkType>(
-                                    value: classType,
-                                    child: Text(classType.name.toString()));
-                              }).toList(),
-                              onChanged: (DrinkType? newValue) {
-                                setState(() {
-                                  _drinks[index].drinkType =
-                                      newValue ?? DrinkType.Bier;
-                                });
-                              },
                             ),
-                          ),
-                          SizedBox(width: spaceBetweenFields),
-                          SizedBox(
-                            width: 80,
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: "Volumen",
+                            SizedBox(
+                              width: 60,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Prozent",
+                                ),
+                                initialValue:
+                                    _drinks[index].percentage.toString(),
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.end,
+                                onChanged: (String value) {
+                                  setState(() {
+                                    _drinks[index].percentage =
+                                        double.tryParse(value) ?? 0.0;
+                                  });
+                                },
                               ),
-                              initialValue: _drinks[index].volume.toString(),
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.end,
-                              onChanged: (String value) {
-                                setState(() {
-                                  _drinks[index].volume =
-                                      double.tryParse(value) ?? 0.0;
-                                });
-                              },
                             ),
-                          ),
-                          SizedBox(
-                            width: 80,
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: "Einheit",
+                            SizedBox(
+                              width: 80,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Volumen",
+                                ),
+                                initialValue: _drinks[index].volume.toString(),
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.end,
+                                onChanged: (String value) {
+                                  setState(() {
+                                    _drinks[index].volume =
+                                        double.tryParse(value) ?? 0.0;
+                                  });
+                                },
                               ),
-                              value: AlcoholicDrink.volumeTypeFactor.keys.first,
-                              items: AlcoholicDrink.volumeTypeFactor.keys
-                                  .map((String s) {
-                                return DropdownMenuItem<String>(
-                                    value: s, child: Text(s));
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  if (newValue != null) {
-                                    _drinks[index].volumeFactor = AlcoholicDrink
-                                            .volumeTypeFactor[newValue] ??
-                                        1;
-                                  }
-                                });
-                              },
                             ),
-                          ),
-                          // todo add alcohol percentage
-                        ],
+                            SizedBox(
+                              width: 70,
+                              child: DropdownButtonFormField<String>(
+                                decoration: const InputDecoration(
+                                    labelText: "Einheit", isDense: true),
+                                value:
+                                    AlcoholicDrink.volumeTypeFactor.keys.first,
+                                items: AlcoholicDrink.volumeTypeFactor.keys
+                                    .map((String s) {
+                                  return DropdownMenuItem<String>(
+                                      value: s, child: Text(s));
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    if (newValue != null) {
+                                      _drinks[index].volumeFactor =
+                                          AlcoholicDrink
+                                                  .volumeTypeFactor[newValue] ??
+                                              1;
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                            // todo add alcohol percentage
+                          ],
+                        ),
+                        onTap: () {
+                          // todo add drink
+                          // _drinks.add(AlcoholicDrink());
+                        },
                       ),
-                      onTap: () {
-                        // todo add drink
-                        // _drinks.add(AlcoholicDrink());
-                      },
                     ),
                   );
                 },
+                /*
                 separatorBuilder: (context, i) => const Divider(
                   color: Colors.grey,
                 ),
+                */
               ),
             ),
           ],
@@ -262,7 +294,7 @@ class _CalculateAlcPageState extends State<CalculateAlcPage> {
                 setState(() {
                   _drinks.clear();
                   _drinks.add(AlcoholicDrink(
-                      percentage: 5, volume: 500, drinkType: DrinkType.Bier));
+                      percentage: 3.5, volume: 500, drinkType: DrinkType.Bier));
                 });
               }),
               child: Text("Getränke löschen")),
