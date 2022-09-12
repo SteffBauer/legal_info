@@ -29,3 +29,10 @@ Flutter:
 * Web/Desktop möglich
 * Ansprechenderes Design möglich, da native UI Elemente
 
+
+## TODO's
+
+* Introduction Screen
+* Use Flexible & Expanded widgets
+* Launcher icon
+  
